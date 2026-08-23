@@ -18,7 +18,7 @@ def next_weekday_date(weekday_index, now):
 
 
 def create_event(channel_id, leader_id, title, description, event_date, time, duration, template_id="10"):
-    hour, minute = map(int, start_time.split(":"))
+    hour, minute = map(int, time.split(":"))
     event_dt = datetime(
         event_date.year, event_date.month, event_date.day,
         hour, minute, tzinfo=PACIFIC,
