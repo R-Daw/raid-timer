@@ -33,4 +33,5 @@ jobs:
           SAT_TIME_RANGE: ${{ vars.SAT_TIME_RANGE }}
           SAT_TITLE: ${{ vars.SAT_TITLE }}
           SAT_DESCRIPTION: ${{ vars.SAT_DESCRIPTION }}
+          PING_ROLE_IDS: ${{ vars.PING_ROLE_IDS }}
         run: python create_raid_events.py
