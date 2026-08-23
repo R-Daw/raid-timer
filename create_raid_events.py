@@ -12,11 +12,12 @@ WEEKDAYS = {"wednesday": 2, "saturday": 5}
 
 
 def next_weekday_date(weekday_index, now):
-    days_ahead = (weekday_index - now.weekday()) % 7
-    return now.date() + timedelta(days=days_ahead)
+    days_until_next_monday = 7 - now.weekday()
+    next_monday = now.date() + timedelta(days=days_until_next_monday)
+    return next_monday + timedelta(days=weekday_index)
 
 
-def create_event(channel_id, leader_id, title, description, event_date, time_range, template_id="10"):
+def create_event(channel_id, leader_id, title, description, event_date, time, duration, template_id="10"):
     noon = datetime(
         event_date.year, event_date.month, event_date.day,
         12, 0, tzinfo=PACIFIC,
@@ -28,7 +29,10 @@ def create_event(channel_id, leader_id, title, description, event_date, time_ran
         "description": description,
         "date": date_ts,
         "time": time_range,
-        "template_id": template_id
+        "templateId": template_id,
+        "advancedSettings": {
+            "duration": duration 
+        }
     }
     headers = {
         "Authorization": API_KEY,
@@ -51,7 +55,8 @@ def main():
             "leader_id": os.environ["WED_LEADER_ID"],
             "title": os.environ.get("WED_TITLE", "Wednesday Raid"),
             "description": os.environ.get("WED_DESCRIPTION", ""),
-            "time_range": os.environ["WED_TIME_RANGE"],
+            "time": os.environ["WED_TIME"],
+            "duration": os.environ["WED_DURATION"],
             "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
             "template_id": "10",
         },
@@ -62,7 +67,8 @@ def main():
             "leader_id": os.environ["SAT_LEADER_ID"],
             "title": os.environ.get("SAT_TITLE", "Saturday Raid"),
             "description": os.environ.get("SAT_DESCRIPTION", ""),
-            "time_range": os.environ["SAT_TIME_RANGE"],
+            "time": os.environ["SAT_TIME"],
+            "duration": os.environ["SAT_DURATION"],
             "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
             "template_id": "10",
         },
@@ -80,8 +86,8 @@ def main():
             create_event(
                 event["channel_id"], event["leader_id"],
                 event["title"], description,
-                event_date, event["time_range"],
-                template_id=event["template_id"]
+                event_date, event["time"], event["duration"],
+                event["template_id"]
             )
             print(f"[OK] {event['name']} event created for {event_date.isoformat()}")
         except requests.HTTPError as e:
