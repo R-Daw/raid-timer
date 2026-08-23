@@ -17,7 +17,7 @@ def next_weekday_date(weekday_index, now):
     return next_monday + timedelta(days=weekday_index)
 
 
-def create_event(channel_id, leader_id, title, description, event_date, time, duration, template_id="10"):
+def create_event(channel_id, leader_id, title, description, event_date, time, duration, color, template_id="10"):
     hour, minute = map(int, time.split(":"))
     event_dt = datetime(
         event_date.year, event_date.month, event_date.day,
@@ -32,7 +32,8 @@ def create_event(channel_id, leader_id, title, description, event_date, time, du
         "time": time,
         "templateId": template_id,
         "advancedSettings": {
-            "duration": duration 
+            "duration": duration,
+            "color": color
         }
     }
     headers = {
@@ -60,6 +61,7 @@ def main():
             "duration": os.environ["WED_DURATION"],
             "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
             "template_id": "10",
+            "color": "19"
         },
         {
             "name": "Saturday",
@@ -72,6 +74,7 @@ def main():
             "duration": os.environ["SAT_DURATION"],
             "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
             "template_id": "10",
+            "color": "25"
         },
     ]
 
@@ -88,7 +91,7 @@ def main():
                 event["channel_id"], event["leader_id"],
                 event["title"], description,
                 event_date, event["time"], event["duration"],
-                event["template_id"]
+                event["color"], event["template_id"]
             )
             print(f"[OK] {event['name']} event created for {event_date.isoformat()}")
         except requests.HTTPError as e:
