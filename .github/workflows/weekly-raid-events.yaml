@@ -1,0 +1,36 @@
+name: Weekly Raid Events
+
+on:
+  schedule:
+    - cron: '0 17 * * 0'   # Sunday 9am PST (10am during PDT)
+  workflow_dispatch:
+
+jobs:
+  create-events:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create raid events
+        env:
+          RAID_SERVER_ID: ${{ vars.RAID_SERVER_ID }}
+          RAID_HELPER_API_KEY: ${{ secrets.RAID_HELPER_API_KEY }}
+          WED_CHANNEL_ID: ${{ vars.WED_CHANNEL_ID }}
+          WED_LEADER_ID: ${{ vars.WED_LEADER_ID }}
+          WED_TIME_RANGE: ${{ vars.WED_TIME_RANGE }}
+          WED_TITLE: ${{ vars.WED_TITLE }}
+          WED_DESCRIPTION: ${{ vars.WED_DESCRIPTION }}
+          SAT_CHANNEL_ID: ${{ vars.SAT_CHANNEL_ID }}
+          SAT_LEADER_ID: ${{ vars.SAT_LEADER_ID }}
+          SAT_TIME_RANGE: ${{ vars.SAT_TIME_RANGE }}
+          SAT_TITLE: ${{ vars.SAT_TITLE }}
+          SAT_DESCRIPTION: ${{ vars.SAT_DESCRIPTION }}
+        run: python create_raid_events.py
