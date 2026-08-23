@@ -51,7 +51,7 @@ def main():
             "title": os.environ.get("WED_TITLE", "Wednesday Raid"),
             "description": os.environ.get("WED_DESCRIPTION", ""),
             "time_range": os.environ["WED_TIME_RANGE"],
-            "ping_role_id": os.environ.get("PING_ROLE_IDS", ""),
+            "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
         },
         {
             "name": "Saturday",
@@ -61,7 +61,7 @@ def main():
             "title": os.environ.get("SAT_TITLE", "Saturday Raid"),
             "description": os.environ.get("SAT_DESCRIPTION", ""),
             "time_range": os.environ["SAT_TIME_RANGE"],
-            "ping_role_id": os.environ.get("PING_ROLE_IDS", ""),
+            "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
         },
     ]
 
