@@ -28,7 +28,7 @@ def create_event(channel_id, leader_id, title, description, event_date, time, du
         "title": title,
         "description": description,
         "date": date_ts,
-        "time": time_range,
+        "time": time,
         "templateId": template_id,
         "advancedSettings": {
             "duration": duration 
