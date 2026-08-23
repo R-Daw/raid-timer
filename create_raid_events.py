@@ -18,11 +18,12 @@ def next_weekday_date(weekday_index, now):
 
 
 def create_event(channel_id, leader_id, title, description, event_date, time, duration, template_id="10"):
-    noon = datetime(
+    hour, minute = map(int, start_time.split(":"))
+    event_dt = datetime(
         event_date.year, event_date.month, event_date.day,
-        12, 0, tzinfo=PACIFIC,
+        hour, minute, tzinfo=PACIFIC,
     )
-    date_ts = str(int(noon.timestamp()))
+    date_ts = str(int(event_dt.timestamp()))
     payload = {
         "leaderId": leader_id,
         "title": title,
