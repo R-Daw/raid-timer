@@ -61,7 +61,7 @@ def main():
             "duration": os.environ["WED_DURATION"],
             "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
             "template_id": "10",
-            "color": "19"
+            "color": "15"
         },
         {
             "name": "Saturday",
@@ -74,7 +74,7 @@ def main():
             "duration": os.environ["SAT_DURATION"],
             "ping_role_ids": os.environ.get("PING_ROLE_IDS", ""),
             "template_id": "10",
-            "color": "25"
+            "color": "22"
         },
     ]
 
