@@ -51,6 +51,7 @@ def main():
             "title": os.environ.get("WED_TITLE", "Wednesday Raid"),
             "description": os.environ.get("WED_DESCRIPTION", ""),
             "time_range": os.environ["WED_TIME_RANGE"],
+            "ping_role_id": os.environ.get("PING_ROLE_IDS", ""),
         },
         {
             "name": "Saturday",
@@ -60,16 +61,22 @@ def main():
             "title": os.environ.get("SAT_TITLE", "Saturday Raid"),
             "description": os.environ.get("SAT_DESCRIPTION", ""),
             "time_range": os.environ["SAT_TIME_RANGE"],
+            "ping_role_id": os.environ.get("PING_ROLE_IDS", ""),
         },
     ]
 
     failures = []
     for event in events:
         event_date = next_weekday_date(event["weekday"], now)
+        description = event["description"]
+        role_ids = [r.strip() for r in event["ping_role_ids"].split(",") if r.strip()]
+        if role_ids:
+            mentions = " ".join(f"<@&{role_id}>" for role_id in role_ids)
+            description = f"{mentions} {description}".strip()
         try:
             create_event(
                 event["channel_id"], event["leader_id"],
-                event["title"], event["description"],
+                event["title"], description,
                 event_date, event["time_range"],
             )
             print(f"[OK] {event['name']} event created for {event_date.isoformat()}")
