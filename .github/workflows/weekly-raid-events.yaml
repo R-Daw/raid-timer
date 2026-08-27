@@ -1,8 +1,6 @@
 name: Weekly Raid Events
 
 on:
-  schedule:
-    - cron: '0 17 * * 0'   # Sunday 9am PST (10am during PDT)
   workflow_dispatch:
 
 jobs:
